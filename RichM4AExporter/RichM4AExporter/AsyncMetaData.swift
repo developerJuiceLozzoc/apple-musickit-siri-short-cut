@@ -10,7 +10,7 @@ import Cocoa
 import AVFoundation
 
 func export(video: AVAsset,
-            withMeta meta: [AVMetadataItem]
+            withMeta meta: [AVMetadataItem],
             withPreset preset: String = AVAssetExportPresetAppleM4A,
             toFileType outputFileType: AVFileType = .m4a,
             atURL outputURL: URL) async -> Bool {
@@ -62,5 +62,6 @@ func metadataArtworkItem(_ imageUrl: URL) async -> AVMetadataItem? {
         return item as AVMetadataItem
     } catch(let error) {
         print("ERROR: task failed successfully", error)
+        return nil
     }
 }

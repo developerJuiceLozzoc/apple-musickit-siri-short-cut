@@ -13,7 +13,7 @@ func export(video: AVAsset,
             withMeta meta: [AVMetadataItem]
             withPreset preset: String = AVAssetExportPresetAppleM4A,
             toFileType outputFileType: AVFileType = .m4a,
-            atURL outputURL: URL) async {
+            atURL outputURL: URL) async -> Bool {
     
     // Check the compatibility of the preset to export the video to the output file type.
     guard await AVAssetExportSession.compatibility(ofExportPreset: preset,
@@ -40,7 +40,7 @@ func export(video: AVAsset,
 
 
 
-func metadataItem(_ identifier: String, value: String?) -> AVMetadataItem {
+func metadataItem(_ identifier: AVMetadataIdentifier, value: String?) -> AVMetadataItem {
   let item = AVMutableMetadataItem()
   item.identifier = identifier
   if let value = value {
@@ -50,20 +50,17 @@ func metadataItem(_ identifier: String, value: String?) -> AVMetadataItem {
   return item.copy() as! AVMetadataItem
 }
 
-func metadataArtworkItem(_ imageUrl: URL, completion: @escaping (_ item: AVMetadataItem?) -> Void) {
-  let task = URLSession.shared.dataTask(with: imageUrl) { data, _, error in
-    guard let data = data, let image = UIImage(data: data), error == nil else {
-      completion(nil)
-      return
+func metadataArtworkItem(_ imageUrl: URL) async -> AVMetadataItem? {
+    do {
+        let (data, _) = try await URLSession.shared.data(from: imageUrl)
+        let item = AVMutableMetadataItem()
+        item.value = data as NSData
+
+        item.dataType = kCMMetadataBaseDataType_PNG as String
+        item.identifier = AVMetadataIdentifier.commonIdentifierArtwork
+        item.extendedLanguageTag = "und"
+        return item as AVMetadataItem
+    } catch(let error) {
+        print("ERROR: task failed successfully", error)
     }
-    let item = AVMutableMetadataItem()
-    if let data = UIImagePNGRepresentation(image) {
-      item.value = data as NSData
-    }
-    item.dataType = kCMMetadataBaseDataType_PNG as String
-    item.identifier = AVMetadataCommonIdentifierArtwork
-    item.extendedLanguageTag = "und"
-    completion(item as AVMetadataItem)
-  }
-  task.resume()
 }

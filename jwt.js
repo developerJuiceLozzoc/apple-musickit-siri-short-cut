@@ -19,7 +19,7 @@ let credentials = {
   developer.apple.com -> Account -> MemberShip Details -> TeamId
   */
   issuerTeamId: "3463GQXGTB"
-})
+}
 /** https://github.com/Exerra/node-musickit-api
  *
  * @param {Object} credentials Apple Music credentials. Consists of a key containing MusicKit privileges, the team ID of developer account and the ID of the key

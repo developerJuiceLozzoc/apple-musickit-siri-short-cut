@@ -2,16 +2,14 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const mongoose = require('mongoose')
 const axios = require("axios")
-const { YoutubeBasicInfoSchema } = require('./schema')
+const { BasicSongInfoSchema } = require('./schema')
+const { CobaltAPIClient } = require('./model/cobalt.js')
+const { AppleMusicAPIClient } = require('./model/applemusic.js')
 
-const MusicInfo = mongoose.model('MusicInfo', YoutubeInfoSchema);
+const { inspect } = require('util')
 
 
-function createMusicInfo(basicInfo) {
-  let info = new MusicInfo()
-  console.log(basicInfo["videoDetails"])
-  return info
-}
+const MusicInfo = mongoose.model('MusicInfo', BasicSongInfoSchema);
 
 /* MARK: - Soundcloud */
 /*
@@ -82,41 +80,38 @@ async function main() {
 node index.js https://youtu.be/UdgRUCVUts0
 node index.js https://soundcloud.com/possessiontechno/possession-podcast-234-whitley
 */
+
+
 let arg = process.argv[2]
 let songurl;
-let artist
-if(arg.includes("?")) {
-  songurl = arg.split("?")[0]
-} else {
-  songurl = arg
+
+songurl = arg
+
+try {
+  /*
+  3.
+  continue to stream file by requesting POST/GET sequence with colbalt.
+  */
+  // let cobalt = new CobaltAPIClient()
+  //
+  // await cobalt.processDownload(songurl)
+  const { parseFile } = await import('music-metadata');
+
+  /* get name and artist from file that has been downloaded.*/
+  const metadata = await parseFile('./temp/BufferToExport.mp3');
+
+  const appleClient = new AppleMusicAPIClient()
+  let songs = await appleClient.querySongsByArtist(metadata.common.artist)
+  console.log(metadata.common.title);
+  console.log(metadata.common.artist);
+
+} catch (e) {
+  console.log(e);
+  console.log("ERROR Failed Successfully");
+  return undefined;
 }
 
 
-/*
-2.
-if is soundcloud
-strip url of query parameters ?
-curl website and look for  artist info
-*/
-if(songurl.includes("soundcloud")){
-  artist = await statSoundcloudURL(songurl)
- console.log(artist)
-}
-
-/*
-if is Youtube
-use other api ytdl-core and stat the file for artist info
-*/
-if(songurl.includes("youtu.be") || songurl.includes("youtube.com")) {
-  artist = await statYoutubeURL(songurl)
-  console.log(artist)
-}
-
-
-/*
-3.
-continue to stream file by requesting POST/GET sequence with colbalt.
-*/
 
 /*
 4.

@@ -9,7 +9,6 @@ import Foundation
 import Cocoa
 import AVFoundation
 
-print("Hello, World!")
 
 struct ItunesArtist: Codable {
     var title: String
@@ -21,12 +20,15 @@ struct ItunesArtist: Codable {
     var album: String
 }
 
-let semaphore = DispatchSemaphore(value: 1)
+let semaphore = DispatchSemaphore(value: 0)
 
 
 func getLatestJson() -> ItunesArtist? {
     do {
-        guard let path = Bundle.main.path(forResource: "MostRecentRequest", ofType: "json"),
+        guard let path = Bundle.path(
+            forResource: "MostRecentRequest",
+                ofType: "json",
+                inDirectory: "archive"),
               let data = try? Data(contentsOf: URL(filePath: path))
         else {
             return nil
@@ -39,7 +41,10 @@ func getLatestJson() -> ItunesArtist? {
 }
 
 func myAsset() -> AVAsset? {
-    guard let path = Bundle.main.path(forResource: "BufferToExport", ofType: "mp3")
+    guard let path = Bundle.path(
+        forResource: "BufferToExport",
+            ofType: "mp3",
+            inDirectory: "temp")
     else {
         return nil
     }
@@ -58,7 +63,7 @@ func metadata(for artist: ItunesArtist) async -> [AVMetadataItem] {
     metas.append(metadataItem(.iTunesMetadataGenreID, value: artist.genre))
     metas.append(metadataItem(.iTunesMetadataArtist, value: artist.artist))
     metas.append(metadataItem(.iTunesMetadataAlbum, value: artist.album))
-//    metas.append(metadataItem(.iTunesMetadataReleaseDate, value: <#T##String?#>))
+
     
     
     return metas
@@ -67,22 +72,17 @@ func metadata(for artist: ItunesArtist) async -> [AVMetadataItem] {
 
 func myExportUrl(for artist: String) -> URL? {
     URL(filePath: FileManager.default.currentDirectoryPath)
-    .appendingPathComponent("\(artist)-\(Int(Date.now.timeIntervalSince1970 / 1000)).m4a")
+    .appendingPathComponent("portal/\(artist)-\(Int(Date.now.timeIntervalSince1970 / 1000)).m4a")
 }
-
-
-
-
-
 
 Task {
     guard let json = getLatestJson(),
           let exportUrl = myExportUrl(for: json.artist),
           let asset = myAsset()
     else {
+        semaphore.signal()
         return
     }
-    
     let metas = await metadata(for: json)
     let success = await export(
         video: asset,

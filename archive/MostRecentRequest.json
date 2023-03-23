@@ -2,6 +2,7 @@
     "title": "0123abc My super Title",
     "artist": "0123abc My super Artist",
     "album": "Sample Album",
+    "albumArtist": "Sample alumb Artist",
     "genre": "Metal",
     "yearPublished": "1969",
     "thumbnail": "http://placekitten.com/200/286"

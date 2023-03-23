@@ -1,21 +1,18 @@
 const { Schema } = require('mongoose')
 
-const BasicSongInfoSchema = new Schema({
-  title: String, // String is shorthand for {type: String}
-  artist: String,
-  genre: String,
-  year: String,
-  album: String,
-  thumbnail: String
-});
 
-const AppleMusicSearchResult = new Schema({
-    count: Number,
-    results: [SongSchema],
-    /*
+const AppleArtistSchema = new Schema({
+     name: String,
+     linkURL: String,
+     artistId: String,
+     amgArtistId: String
+
+/*
     enum CodingKeys: String, CodingKey {
-        case count = "resultCount"
-        case results
+        case artistId,amgArtistId
+        case name = "artistName"
+        case linkURL = "artistLinkUrl"
+
     }
     */
 })
@@ -38,9 +35,18 @@ const SongSchema = new Schema({
 
 })
 
-const AppleArtistSearchResult = new Schema({
+const BasicSongInfoSchema = new Schema({
+  title: String, // String is shorthand for {type: String}
+  artist: String,
+  genre: String,
+  year: String,
+  album: String,
+  thumbnail: String
+});
+
+const AppleMusicSearchResult = new Schema({
     count: Number,
-    results: [AppleArtistSchema]
+    results: [SongSchema],
     /*
     enum CodingKeys: String, CodingKey {
         case count = "resultCount"
@@ -49,18 +55,14 @@ const AppleArtistSearchResult = new Schema({
     */
 })
 
-const AppleArtistSchema = new Schema({
-     name: String,
-     linkURL: String,
-     artistId: String,
-     amgArtistId: String
 
-/*
+const AppleArtistSearchResult = new Schema({
+    count: Number,
+    results: [AppleArtistSchema]
+    /*
     enum CodingKeys: String, CodingKey {
-        case artistId,amgArtistId
-        case name = "artistName"
-        case linkURL = "artistLinkUrl"
-
+        case count = "resultCount"
+        case results
     }
     */
 })

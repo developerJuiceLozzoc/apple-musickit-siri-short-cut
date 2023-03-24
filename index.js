@@ -7,10 +7,55 @@ const { CobaltAPIClient } = require('./model/cobalt.js')
 const { AppleMusicAPIClient } = require('./model/applemusic.js')
 
 const { inspect } = require('util')
+const { exec } = require('child_process');
 
 
 const MusicInfo = mongoose.model('MusicInfo', BasicSongInfoSchema);
 
+
+function MyNumberType(value, number) {
+  this.value = value
+  this.number = number
+}
+
+MyNumberType.prototype.valueOf = function() {
+  return this.number;
+};
+
+
+function getEditDistance (a, b){
+  if(a.length == 0) return b.length;
+  if(b.length == 0) return a.length;
+
+  var matrix = [];
+
+  // increment along the first column of each row
+  var i;
+  for(i = 0; i <= b.length; i++){
+    matrix[i] = [i];
+  }
+
+  // increment each column in the first row
+  var j;
+  for(j = 0; j <= a.length; j++){
+    matrix[0][j] = j;
+  }
+
+  // Fill in the rest of the matrix
+  for(i = 1; i <= b.length; i++){
+    for(j = 1; j <= a.length; j++){
+      if(b.charAt(i-1) == a.charAt(j-1)){
+        matrix[i][j] = matrix[i-1][j-1];
+      } else {
+        matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+                                Math.min(matrix[i][j-1] + 1, // insertion
+                                         matrix[i-1][j] + 1)); // deletion
+      }
+    }
+  }
+
+  return matrix[b.length][a.length];
+};
 /* MARK: - Soundcloud */
 /*
 if is soundcloud
@@ -92,18 +137,38 @@ try {
   3.
   continue to stream file by requesting POST/GET sequence with colbalt.
   */
-  // let cobalt = new CobaltAPIClient()
-  //
-  // await cobalt.processDownload(songurl)
+  let cobalt = new CobaltAPIClient()
+  await cobalt.processDownload(songurl)
   const { parseFile } = await import('music-metadata');
 
   /* get name and artist from file that has been downloaded.*/
   const metadata = await parseFile('./temp/BufferToExport.mp3');
 
   const appleClient = new AppleMusicAPIClient()
-  let songs = await appleClient.querySongsByArtist(metadata.common.artist)
-  console.log(metadata.common.title);
-  console.log(metadata.common.artist);
+  let result = await appleClient.querySongsByArtist(metadata.common.artist)
+
+  let closestTitle = {
+    value: undefined,
+    weight: 690000
+  }
+
+  result.results.map(function(song) {
+    return {
+      value: song,
+      weight: getEditDistance(song.trackName, metadata.common.title)
+    }
+  }).forEach(function(song) {
+    if(song.weight < closestTitle.weight) {
+      closestTitle = song
+    }
+  })
+
+  let finalizedArtistSong = closestTitle.value
+  finalizedArtistSong.sourceName = metadata.common.title
+  finalizedArtistSong.channelArtist = metadata.common.artist
+  console.log("writing to file");
+  // time to stringify this item, then executre the swift script and be done with it.
+  await fs.promises.writeFile('./archive/MostRecentRequest.json', JSON.stringify(finalizedArtistSong))
 
 } catch (e) {
   console.log(e);
@@ -115,15 +180,23 @@ try {
 
 /*
 4.
-write file as a rich mp4? mp3? idk soething that itunes can read. perhaps photo.
-*/
 
-/*
-5.
-place in folder
+ sign off and execute the swift process
 */
+console.log('swift swiftBinary');
+exec('echo $pwd && ./swiftBinary', (err, stdout, stderr) => {
+  if (err) {
+    //some err occurred
+    console.error(err)
+  } else {
+   // the *entire* stdout and stderr (buffered)
+   console.log(`stdout: ${stdout}`);
+   console.log(`stderr: ${stderr}`);
+  }
+  process.exit()
 
-process.exit()
+});
+
 }
 
 

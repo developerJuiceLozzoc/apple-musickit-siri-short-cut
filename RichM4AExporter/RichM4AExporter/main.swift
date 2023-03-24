@@ -11,13 +11,14 @@ import AVFoundation
 
 
 struct ItunesArtist: Codable {
-    var title: String
-    var artist: String
-    var albumArtist: String
-    var genre: String
-    var yearPublished: String
-    var thumbnail: String
+    var artistName: String
+    var trackName: String
+    var genres: [String]
+    var releaseDate: String
+    var cover: String
     var album: String
+    var channelArtist: String
+    var sourceName: String
 }
 
 let semaphore = DispatchSemaphore(value: 0)
@@ -54,15 +55,24 @@ func myAsset() -> AVAsset? {
 
 func metadata(for artist: ItunesArtist) async -> [AVMetadataItem] {
     var metas = [AVMetadataItem]()
-    if let url = URL(string: artist.thumbnail),
+    if let url = URL(string: artist.cover),
        let mediaMetaData = await metadataArtworkItem(url) {
         metas.append(mediaMetaData)
     }
     
-    metas.append(metadataItem(.iTunesMetadataSongName, value: artist.title))
-    metas.append(metadataItem(.iTunesMetadataGenreID, value: artist.genre))
-    metas.append(metadataItem(.iTunesMetadataArtist, value: artist.artist))
+    metas.append(metadataItem(.iTunesMetadataSongName, value: artist.trackName))
+    
+    artist.genres.forEach { genre in
+        metas.append(metadataItem(.iTunesMetadataGenreID, value: genre))
+    }
     metas.append(metadataItem(.iTunesMetadataAlbum, value: artist.album))
+    
+    metas.append(metadataItem(.iTunesMetadataArtist, value: artist.artistName))
+    metas.append(metadataItem(.iTunesMetadataAlbumArtist, value: artist.channelArtist))
+    if let json = try? JSONEncoder().encode(artist) {
+        let jsonString = String(data: json, encoding: .utf8)
+        metas.append(metadataItem(.id3MetadataComments, value: jsonString))
+    }
 
     
     
@@ -77,7 +87,7 @@ func myExportUrl(for artist: String) -> URL? {
 
 Task {
     guard let json = getLatestJson(),
-          let exportUrl = myExportUrl(for: json.artist),
+          let exportUrl = myExportUrl(for: json.artistName),
           let asset = myAsset()
     else {
         semaphore.signal()
@@ -91,7 +101,7 @@ Task {
     )
     
     if success {
-        print("Successfully exported song: \(json.title)")
+        print("Successfully exported song: \(json.trackName)")
     }
     
     

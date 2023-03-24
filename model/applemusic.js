@@ -9,49 +9,10 @@ const {
 const { joseSign } = require('../jwt.js')
 
 
-function minimumDistances(a) {
-    let distances = [];
-    for(let i = 0; i<a.length; i++){
-        if(a.indexOf(a[i]) !== a.lastIndexOf(a[i])){
-        let minDistance = a.lastIndexOf(a[i]) - a.indexOf(a[i]);
-            distances.push(minDistance);
-        }
-    }
-
-    if(distances.length === 0){
-        return -1;
-    }else{
-        distances.sort(function(a, b) {
-          return a - b;
-        });
-
-        return distances[0];
-    }
-}
-
 class AppleMusicAPIClient {
 
-  /** We can search for meta data by compairing the first page of results
-  * from apple music api by searching for song title, which is present in youtube title.
-  * or from songcloud title by searching for song artist, which is also present.
-   *
-   * @param {string} str Jungled string from soundcloud, youtube≥
-   */
- async  querySongTitle(str) {
-
- }
- /** https://github.com/Exerra/node-musickit-api
+ /** We grab the first 50 songs by the artist and see if the one we want is in that list.... idk
   *
-  * @param {string} str Jungled string from soundcloud, youtube≥
-  */
- async  querySongArtist(str) {
-
- }
-
-
- /**
-  *
-  * @param {string} title song Title
   * @param {string} artist song artist
   */
  async  querySongsByArtist(artist) {
@@ -62,11 +23,18 @@ class AppleMusicAPIClient {
       }
     })
     let searchTerm =  artist.split(" ").join("+")
-    let requestURL = `https://api.music.apple.com/v1/catalog/US/search?term=${searchTerm}&types=songs`
+    let requestURL = `https://api.music.apple.com/v1/catalog/US/search?term=${searchTerm}&types=songs&limit=25`
    let { data } = await reqInstance.get(requestURL)
-   let
-    console.log("Apple music", data,requestURL);
+
+   if(data.results.songs.data.length == 25) {
+     let requestURL = `https://api.music.apple.com/v1/catalog/US/search?term=${searchTerm}&types=songs&limit=25&offset=25`
+    let response2 = await reqInstance.get(requestURL)
+   }
+
+    let songs = new AppleMusicSearchResult(data)
+    return songs
  }
+
 
 }
 

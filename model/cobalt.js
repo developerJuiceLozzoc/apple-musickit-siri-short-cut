@@ -1,7 +1,7 @@
 const axios = require('axios')
 const fs = require('fs')
 const request = require('request');
-
+const { exec } = require('child_process');
 
 const {
   YoutubeInfoSchema
@@ -24,14 +24,28 @@ class CobaltAPIClient {
       url,
       isAudioOnly: true
    }
+   try {
+     let resp = await  axios
+     .post(
+       "http://localhost:9000/api/json",
+       reqBody,
+       {headers: commonHeaders}
+     )
+     return resp.data["url"]
+   } catch(e){
+     var self = this;
+    console.log("Suspicious that the server isnt ready.");
+    exec('cd cobalt && npm start', (err, stdout, stderr) => {
+      if (err) {
+        //some err occurred
+        console.error(err)
+      } else {
+        self.downloadFile(url)
+      }
+    });
 
-   let resp = await  axios
-   .post(
-     "http://localhost:9000/api/json",
-     reqBody,
-     {headers: commonHeaders}
-   )
-   return resp.data["url"]
+  }
+
  }
  /** https://github.com/Exerra/node-musickit-api
   *
@@ -92,6 +106,7 @@ class CobaltAPIClient {
 
     } catch (error) {
       console.error("ERROR: Task failed successfuly", error);
+      console.log("Assuming ");
       return undefined;
 
       // Expected output: ReferenceError: nonExistentFunction is not defined

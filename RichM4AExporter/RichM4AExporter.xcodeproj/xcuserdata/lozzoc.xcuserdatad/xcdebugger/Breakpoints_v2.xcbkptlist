@@ -7,17 +7,143 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "09044240-8D0E-4795-8EB0-7D682BA011CB"
+            uuid = "08CA8B47-CBE8-4976-8635-2963C679E1F8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RichM4AExporter/main.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "metadata(for:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "08CA8B47-CBE8-4976-8635-2963C679E1F8 - a7d10c5cf2ad0551"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for RichM4AExporter.metadata(for: RichM4AExporter.ItunesArtist) async -&gt; Swift.Array&lt;__C.AVMetadataItem&gt;"
+                  moduleName = "RichM4AExporter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lozzoc/Documents/code/yt-nodejs/RichM4AExporter/RichM4AExporter/main.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "1332">
+               </Location>
+               <Location
+                  uuid = "08CA8B47-CBE8-4976-8635-2963C679E1F8 - 1fdc3a9aa8b3e953"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for RichM4AExporter.metadata(for: RichM4AExporter.ItunesArtist) async -&gt; Swift.Array&lt;__C.AVMetadataItem&gt;"
+                  moduleName = "RichM4AExporter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lozzoc/Documents/code/yt-nodejs/RichM4AExporter/RichM4AExporter/main.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "1260">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F66FF08B-E5E2-480E-8D25-65230A1ACD77"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RichM4AExporter/AsyncMetaData.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "metadataArtworkItem(_:)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "F66FF08B-E5E2-480E-8D25-65230A1ACD77 - de35ae07509f5dd2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for RichM4AExporter.metadataArtworkItem(Foundation.URL) async -&gt; Swift.Optional&lt;__C.AVMetadataItem&gt;"
+                  moduleName = "RichM4AExporter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lozzoc/Documents/code/yt-nodejs/RichM4AExporter/RichM4AExporter/AsyncMetaData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "F66FF08B-E5E2-480E-8D25-65230A1ACD77 - 1e811f41831166ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for RichM4AExporter.metadataArtworkItem(Foundation.URL) async -&gt; Swift.Optional&lt;__C.AVMetadataItem&gt;"
+                  moduleName = "RichM4AExporter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lozzoc/Documents/code/yt-nodejs/RichM4AExporter/RichM4AExporter/AsyncMetaData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "F66FF08B-E5E2-480E-8D25-65230A1ACD77 - aec9df7ce029acc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for RichM4AExporter.metadataArtworkItem(Foundation.URL) async -&gt; Swift.Optional&lt;__C.AVMetadataItem&gt;"
+                  moduleName = "RichM4AExporter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lozzoc/Documents/code/yt-nodejs/RichM4AExporter/RichM4AExporter/AsyncMetaData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "F66FF08B-E5E2-480E-8D25-65230A1ACD77 - 2d431adc34c4784d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for RichM4AExporter.metadataArtworkItem(Foundation.URL) async -&gt; Swift.Optional&lt;__C.AVMetadataItem&gt;"
+                  moduleName = "RichM4AExporter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lozzoc/Documents/code/yt-nodejs/RichM4AExporter/RichM4AExporter/AsyncMetaData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D5A111C2-D531-49BF-A635-6A4458D9C4D7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RichM4AExporter/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "metadata(for:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

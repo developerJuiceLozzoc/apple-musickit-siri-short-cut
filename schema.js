@@ -16,24 +16,33 @@ const AppleArtistSchema = new Schema({
     }
     */
 })
-
-
-const SongSchema = new Schema({
-  artistName: String,
-  trackName: String,
-  trackPrice: Number,
-  releaseDate: String,
-  currency: String,
-  trackId: Number,
-  genre: String
-    /*
-    enum CodingKeys: String, CodingKey {
-        case artistName,trackName,trackPrice,releaseDate,trackId,currency
-        case genre = "primaryGenreName"
+class SongSchema {
+  constructor(data) {
+    try {
+      this.artistName = data.attributes.artistName
+      this.trackName = data.attributes.name
+      this.releaseDate = data.attributes.releaseDate
+      this.genres = data.attributes.genreNames
+      this.cover = data.attributes.artwork.url.split("{w}").join("300").split("{h}").join("300")
+      const width = data.attributes.artwork.url
+      this.album = data.attributes.albumName
+    } catch(e) {
+      console.log(e);
+      this.artistName = "data.attributes.artistName"
+      this.trackName = "data.attributes.name"
+      this.releaseDate = "data.attributes.releaseDate"
+      this.genres = "data.attributes.genreNames"
+      this.cover = "data.attributes.artwork.url"
+      this.album = data.attributes.albumName
     }
-    */
-
-})
+  }
+  /*
+  enum CodingKeys: String, CodingKey {
+      case artistName,trackName,trackPrice,releaseDate,trackId,currency
+      case genre = "primaryGenreName"
+  }
+  */
+}
 
 const BasicSongInfoSchema = new Schema({
   title: String, // String is shorthand for {type: String}
@@ -44,16 +53,19 @@ const BasicSongInfoSchema = new Schema({
   thumbnail: String
 });
 
-const AppleMusicSearchResult = new Schema({
-    count: Number,
-    results: [SongSchema],
-    /*
-    enum CodingKeys: String, CodingKey {
-        case count = "resultCount"
-        case results
+
+class AppleMusicSearchResult {
+  constructor(data) {
+    try {
+      this.count = data.count
+      this.results = data.results.songs.data.map(function(item){return new SongSchema(item)})
+    } catch(e){
+      console.log(e);
+      this.count = 0
+      this.results = []
     }
-    */
-})
+  }
+}
 
 
 const AppleArtistSearchResult = new Schema({

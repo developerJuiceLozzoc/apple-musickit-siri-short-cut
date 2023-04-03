@@ -24,7 +24,6 @@ class CobaltAPIClient {
       url,
       isAudioOnly: true
    }
-   console.log(reqBody);
    try {
      let resp = await axios
      .post(
@@ -107,7 +106,6 @@ class CobaltAPIClient {
 
     } catch (error) {
       console.error("ERROR: Task failed successfuly", error);
-      console.log("Assuming ");
       return undefined;
 
       // Expected output: ReferenceError: nonExistentFunction is not defined

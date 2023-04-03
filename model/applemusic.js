@@ -31,7 +31,6 @@ class AppleMusicAPIClient {
      return {results: []}
    }
    let {data} = resp;
-   console.log(data);
    if(Object.keys(data.results).length == 0  || data.results.length == 0) {
      return {results: []}
 

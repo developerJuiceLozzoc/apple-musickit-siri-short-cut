@@ -1,4 +1,4 @@
 #!/bin/bash
 echo $1 >> ./temp/sirirequests.txt
 
-node index.js $1
+/Users/lozzoc/.nvm/versions/node/v18.15.0/bin/node ./index.js $1

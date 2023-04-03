@@ -81,10 +81,9 @@ try {
   if(songurl.includes("soundcloud")) {
     let soundcloudclient = new SoundloudClient()
     let info = await soundcloudclient.statSoundcloudURL(songurl)
-    console.log(info);
-    // await cobalt.processDownload(info.ogStreamUrl)
+    await cobalt.processDownload(info.ogStreamUrl)
   } else {
-    // await cobalt.processDownload(songurl)
+    await cobalt.processDownload(songurl)
   }
 
 
@@ -109,9 +108,8 @@ try {
     finalizedArtistSong.trackName = metadata.common.title
 
 
-    console.log("writing to file");
     // time to stringify this item, then executre the swift script and be done with it.
-    await fs.promises.writeFile('./archive/MostRecentRequest.json', JSON.stringify(finalizedArtistSong).split(',').join(`,\n`))
+    await fs.promises.writeFile('./archive/MostRecentRequest.json', JSON.stringify(finalizedArtistSong))
   } else {
       let closestTitle = {
         value: undefined,
@@ -137,7 +135,6 @@ try {
 
       finalizedArtistSong.sourceName = metadata.common.title
       finalizedArtistSong.channelArtist = metadata.common.artist
-      console.log("writing to file");
       // time to stringify this item, then executre the swift script and be done with it.
       await fs.promises.writeFile('./archive/MostRecentRequest.json', JSON.stringify(finalizedArtistSong))
   }
@@ -158,7 +155,6 @@ try {
 
  sign off and execute the swift process
 */
-console.log('swift swiftBinary');
 exec('echo $pwd && ./swiftBinary', (err, stdout, stderr) => {
   if (err) {
     //some err occurred

@@ -1,1 +1,8 @@
-{"artistName":"Linkin Park$$LINKIN PARK;","trackName":"What I've Done$$What I've Done [Official Music Video] - Linkin Park","releaseDate":"2007-04-02","genres":["Hard Rock","Music","Rock","Metal","Alternative"],"cover":"https://is4-ssl.mzstatic.com/image/thumb/Music125/v4/73/03/56/730356d5-a510-3d3f-d3c6-171f64700d35/093624948971.jpg/300x300bb.jpg","album":"Minutes to Midnight (Deluxe Edition)","sourceName":"What I've Done [Official Music Video] - Linkin Park","channelArtist":"Linkin Park"}
+{"artistName":"LitVEVO",
+"trackName":"Lit - My Own Worst Enemy (Official Music Video)",
+"releaseDate":"data.attributes.releaseDate",
+"genres":["data.attributes.genreNames"],
+"cover":"https://picsum.photos/200",
+"album":"UNKNOWN",
+"sourceName":"Lit - My Own Worst Enemy (Official Music Video)",
+"channelArtist":"LitVEVO"}

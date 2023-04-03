@@ -60,7 +60,6 @@ class AppleMusicSearchResult {
       this.count = data.count
       this.results = data.results.songs.data.map(function(item){return new SongSchema(item)})
     } catch(e){
-      console.log(e);
       this.count = 0
       this.results = []
     }

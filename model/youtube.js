@@ -2,7 +2,7 @@ const fs = require('fs');
 const ytdl = require('ytdl-core');
 const mongoose = require('mongoose')
 const axios = require("axios")
-const { BasicSongInfoSchema } = require('./schema')
+const { BasicSongInfoSchema } = require('../schema')
 
 const YoutubeBasicInfoSchema = mongoose.model('MusicInfo', BasicSongInfoSchema);
 
@@ -12,6 +12,7 @@ async function statYoutubeURL(url) {
   try {
     let ytdlBasicInfo = await ytdl.getInfo(url)
     console.log(Object.keys(ytdlBasicInfo))
+    console.log(ytdlBasicInfo["videoDetails"]);
     let artist = new YoutubeBasicInfoSchema();
     artist.title = ytdlBasicInfo["videoDetails"]["title"];
     artist.genre = `Youtube Music's Far Reaches ${ytdlBasicInfo["videoDetails"]["isFamilySafe"] ? "CLEAN" : "EXPLICIT"}`;
@@ -49,7 +50,6 @@ async function createYoutubeStream(url) {
       return undefined;
     }
 
-  }
 }
 
 module.exports = {

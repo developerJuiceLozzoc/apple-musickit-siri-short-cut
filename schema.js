@@ -19,6 +19,7 @@ const AppleArtistSchema = new Schema({
 class SongSchema {
   constructor(data) {
     try {
+
       this.artistName = data.attributes.artistName
       this.trackName = data.attributes.name
       this.releaseDate = data.attributes.releaseDate
@@ -27,13 +28,12 @@ class SongSchema {
       const width = data.attributes.artwork.url
       this.album = data.attributes.albumName
     } catch(e) {
-      console.log(e);
       this.artistName = "data.attributes.artistName"
       this.trackName = "data.attributes.name"
       this.releaseDate = "data.attributes.releaseDate"
-      this.genres = "data.attributes.genreNames"
-      this.cover = "data.attributes.artwork.url"
-      this.album = data.attributes.albumName
+      this.genres = ["data.attributes.genreNames"]
+      this.cover = "https://picsum.photos/200"
+      this.album = "UNKNOWN"
     }
   }
   /*

@@ -24,8 +24,9 @@ class CobaltAPIClient {
       url,
       isAudioOnly: true
    }
+   console.log(reqBody);
    try {
-     let resp = await  axios
+     let resp = await axios
      .post(
        "http://localhost:9000/api/json",
        reqBody,
@@ -34,11 +35,11 @@ class CobaltAPIClient {
      return resp.data["url"]
    } catch(e){
      var self = this;
-    console.log("Suspicious that the server isnt ready.");
+    console.log(`Suspicious that the server isnt ready. Error: ${e}`);
     exec('cd cobalt && npm start', (err, stdout, stderr) => {
       if (err) {
         //some err occurred
-        console.error(err)
+        console.error(`Servier is in fact runningo`)
       } else {
         self.downloadFile(url)
       }
